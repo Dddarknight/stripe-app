@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+
+<div class="container">
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Item name</th>
+                    <th scope="col">Item price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Discount, %</th>
+                    <th scope="col">Tax, %</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for itemorder in itemorders %}
+                    <tr>
+                        <td> {{ itemorder.item.name }} </td>
+                        <td> {{ itemorder.item.price }} </td>
+                        <td> {{ itemorder.quantity}} </td>
+                        <td> {{ order.discount.discount }} </td>
+                        <td> {{ order.tax.rate }} </td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+    </div>
+    <div class="row">
+        <form action='{% url 'stripe-session-order' order.id %}' method="GET">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light btn-lg" id="checkout-button">Buy</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
