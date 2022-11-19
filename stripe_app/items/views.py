@@ -7,7 +7,6 @@ from django.views import View, generic
 from stripe_app.items.models import Item
 
 
-stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 HOST = os.getenv('HOST')
 
 
@@ -15,18 +14,26 @@ class StripeSessionView(View):
 
     def get(self, request, *args, **kwargs):
         item = Item.objects.get(id=kwargs['pk'])
+        secret_key = os.getenv('STRIPE_SECRET_KEY_USD') if (
+            item.currency == 'USD') else os.getenv(
+                'STRIPE_SECRET_KEY_ANOTHER_CURRENCY')
+        stripe.api_key = secret_key
+        product = stripe.Product.create(
+            name=item.name,
+            description=item.description,
+        )
+        price = stripe.Price.create(
+            currency=item.currency,
+            unit_amount=item.price,
+            product=product,
+        )
+        item_data = {
+            'price': price.id,
+            'quantity': 1,
+        }
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
-            line_items=[{
-                'price_data': {
-                    'currency': 'usd',
-                    'product_data': {
-                        'name': item.name,
-                    },
-                    'unit_amount': item.price,
-                },
-                'quantity': 1,
-            }],
+            line_items=[item_data],
             mode='payment',
             success_url=f"{HOST}/success",
             cancel_url=f"{HOST}/cancel",
@@ -41,6 +48,10 @@ class BuyItemView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         item = Item.objects.get(id=kwargs['pk'])
         context['item'] = item
+        publish_key = os.getenv('STRIPE_PUBLISH_KEY_USD') if (
+            item.currency == 'USD') else os.getenv(
+                'STRIPE_PUBLISH_KEY_ANOTHER_CURRENCY')
+        context['STRIPE_PUBLISH_KEY'] = publish_key
         return context
 
 
@@ -71,3 +82,8 @@ class BuyItemIntentView(generic.TemplateView):
         item = Item.objects.get(id=kwargs['pk'])
         context['item'] = item
         return context
+
+
+class ItemsView(generic.ListView):
+    template_name = 'items/items.html'
+    model = Item

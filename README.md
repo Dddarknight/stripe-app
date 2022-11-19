@@ -1,5 +1,5 @@
 # Stripe App
-Provides oppotunity to use Stripe tools for making purchases of individual items or orders, containing several items of different quantity.
+Provides an oppotunity to use Stripe tools for making purchases of individual items or orders, containing several items of different quantity.
 
 
 ## Links and tools
@@ -35,7 +35,7 @@ $ python manage.py shell
 >>> from django.core.management.utils import get_random_secret_key
 >>> get_random_secret_key()
 ```
-To get keys fot Stripe, you have to create an account. Follow the [link](https://dashboard.stripe.com/login).
+To get keys for Stripe, you have to create an account (this app provides the oppotunity to work with 2 pairs of keys for USD and for another currency). Follow the [link](https://dashboard.stripe.com/login).
 Then add secret keys to .env file.
 
 While development you can put your localhost to HOST variable.
@@ -48,12 +48,26 @@ $ make migrate
 ```
 $ make run
 ```
+## Using app with Docker
+You have to fill PostgreSQL credentials in .env file.
+Then:
+```
+$ docker-compose up -d --build
+$ docker exec -it stripe_app bash
+# python manage.py migrate
+# python manage.py createsuperuser
+```
+Then provide admin username/password for managing objects (items, orders).
 
 ## Description and usage
 | Endpoints | Description |
 |----------|---------|
 | /item/{item_id}/ |  The page for buying the item.  |
+| /item-intent/{item_id}/ |  The page for pre-buying the item.  |
 | /order/{order_id}/ | The page for buying the order. Here you can see the list of items, their quantity, taxes and discounts. |
+| /items/ |  The list of availible items.  |
+| /orders/ |  The list of orders.  |
+| /admin/ |  Can be used for creating items / orders.  |
 
 
 ## License

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        Items
+    </h1>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for item in object_list %}
+                <tr>
+                    <td> {{ item.name }} </td>
+                    <td> {{ item.description }} </td>
+                    <td> {{ item.price }} </td>
+                    <td>
+                        <a href={% url 'item' item.id %}>Buy</a>
+                    </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

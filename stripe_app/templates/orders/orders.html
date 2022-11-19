@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        Orders
+    </h1>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for order in object_list %}
+                <tr>
+                    <td> {{ order.id }} </td>
+                    <td>
+                        <a href={% url 'order' order.id %}>Buy</a>
+                    </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

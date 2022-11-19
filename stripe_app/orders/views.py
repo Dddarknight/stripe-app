@@ -6,7 +6,7 @@ from django.views import View, generic
 from stripe_app.orders.models import Order
 
 
-stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY_USD')
 HOST = os.getenv('HOST')
 
 
@@ -16,17 +16,18 @@ class StripeSessionOrderView(View):
         order = Order.objects.get(id=kwargs['pk'])
         line_items = []
         for element in order.itemorder.get_queryset():
-            # currency = stripe.Payout.create(
-            #     amount=1000, currency=element.item.currency)
+            product = stripe.Product.create(
+                name=element.item.name,
+                description=element.item.description,
+            )
+            price = stripe.Price.create(
+                currency=element.item.currency,
+                unit_amount=element.item.price,
+                product=product,
+            )
             item_data = {
-                'price_data': {
-                    'currency': 'usd',#element.item.currency,
-                    'product_data': {
-                        'name': element.item.name,
-                    },
-                    'unit_amount': element.item.price,
-                },
-                'quantity': element.quantity,  
+                'price': price.id,
+                'quantity': element.quantity,
             }
             if order.tax:
                 tax_rate = stripe.TaxRate.create(
@@ -66,3 +67,8 @@ class BuyOrderView(generic.TemplateView):
         context['order'] = order
         context['itemorders'] = itemorders
         return context
+
+
+class OrdersView(generic.ListView):
+    template_name = 'orders/orders.html'
+    model = Order

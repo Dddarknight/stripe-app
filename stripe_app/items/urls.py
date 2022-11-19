@@ -16,4 +16,7 @@ urlpatterns = [
     path('buy-item-intent/<int:pk>/',
          views.BuyItemIntentView.as_view(),
          name='buy-item-intent'),
+    path('items/',
+         views.ItemsView.as_view(),
+         name='items'),
 ]
