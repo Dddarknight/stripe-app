@@ -16,7 +16,7 @@ IS_DOCKER = os.getenv('IS_DOCKER')
 
 DEBUG = True if not IS_HEROKU else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', ".herokuapp.com"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
