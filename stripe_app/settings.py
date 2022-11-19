@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -61,7 +62,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'stripe_app.wsgi.application'
 
-if IS_HEROKU or IS_DOCKER:
+if IS_HEROKU:
+    DATABASES = {}
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True)
+elif IS_DOCKER:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
