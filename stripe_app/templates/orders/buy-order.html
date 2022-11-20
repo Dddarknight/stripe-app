@@ -27,8 +27,9 @@
                     </tr>
                     {% endfor %}
             </tbody>
+        </table>
     </div>
-    <div class="row">
+    <div class="d-flex justify-content-end">
         <form action='{% url 'stripe-session-order' order.id %}' method="GET">
             {% csrf_token %}
             <button type="submit" class="btn btn-light btn-lg" id="checkout-button">Buy</button>
