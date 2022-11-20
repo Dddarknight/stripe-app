@@ -15,7 +15,7 @@ class StripeSessionView(View):
     def get(self, request, *args, **kwargs):
         item = Item.objects.get(id=kwargs['pk'])
         secret_key = os.getenv('STRIPE_SECRET_KEY_USD') if (
-            item.currency == 'USD') else os.getenv(
+            item.currency == 'usd') else os.getenv(
                 'STRIPE_SECRET_KEY_ANOTHER_CURRENCY')
         stripe.api_key = secret_key
         product = stripe.Product.create(
@@ -49,7 +49,7 @@ class BuyItemView(generic.TemplateView):
         item = Item.objects.get(id=kwargs['pk'])
         context['item'] = item
         publish_key = os.getenv('STRIPE_PUBLISH_KEY_USD') if (
-            item.currency == 'USD') else os.getenv(
+            item.currency == 'usd') else os.getenv(
                 'STRIPE_PUBLISH_KEY_ANOTHER_CURRENCY')
         context['STRIPE_PUBLISH_KEY'] = publish_key
         return context

@@ -1,0 +1,19 @@
+{
+    "items": {
+      "item1": {
+        "name": "item1",
+        "description": "description1",
+        "price": 3000
+      },
+      "item2": {
+        "name": "item2",
+        "description": "description2",
+        "price": 2000
+      },
+      "item3": {
+        "name": "item3",
+        "description": "description3",
+        "price": 4000
+      }
+    }
+  }
