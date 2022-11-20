@@ -110,6 +110,19 @@ python-versions = ">=3.7"
 Django = ">=3.2"
 
 [[package]]
+name = "flake8"
+version = "5.0.4"
+description = "the modular source code checker: pep8 pyflakes and co"
+category = "dev"
+optional = false
+python-versions = ">=3.6.1"
+
+[package.dependencies]
+mccabe = ">=0.7.0,<0.8.0"
+pycodestyle = ">=2.9.0,<2.10.0"
+pyflakes = ">=2.5.0,<2.6.0"
+
+[[package]]
 name = "gunicorn"
 version = "20.1.0"
 description = "WSGI HTTP Server for UNIX"
@@ -132,10 +145,34 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "mccabe"
+version = "0.7.0"
+description = "McCabe checker, plugin for flake8"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "psycopg2"
 version = "2.9.5"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
 category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
+name = "pycodestyle"
+version = "2.9.1"
+description = "Python style guide checker"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
+name = "pyflakes"
+version = "2.5.0"
+description = "passive checker of Python programs"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -219,7 +256,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4"
-content-hash = "5a924cd30a3ad64b1b2955e34a7c988b3d933f749551c5baaaeafb0747a599c6"
+content-hash = "5452423f487308239d9e7a37535cb6e767617c26843ce1266e758ec500a02a7a"
 
 [metadata.files]
 asgiref = []
@@ -231,9 +268,13 @@ dj-database-url = []
 django = []
 django-bootstrap-v5 = []
 django-bootstrap5 = []
+flake8 = []
 gunicorn = []
 idna = []
+mccabe = []
 psycopg2 = []
+pycodestyle = []
+pyflakes = []
 python-dotenv = []
 requests = []
 soupsieve = []
